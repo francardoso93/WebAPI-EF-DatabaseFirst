@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="STATE_MONITOR_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="StateMonitorMetrics">
+          <Key>
+            <PropertyRef Name="stateMonitorMetricId" />
+          </Key>
+          <Property Name="stateMonitorMetricId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descMetric" Type="nvarchar(max)" />
+          <Property Name="measuredTag" Type="nvarchar(max)" />
+          <Property Name="stateMonitorId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="StateMonitors">
+          <Key>
+            <PropertyRef Name="stateMonitorId" />
+          </Key>
+          <Property Name="stateMonitorId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" />
+          <Property Name="thingType" Type="nvarchar(max)" />
+          <Property Name="thingLvl" Type="nvarchar(max)" />
+          <Property Name="thingName" Type="nvarchar(max)" />
+          <Property Name="thingId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="States">
+          <Key>
+            <PropertyRef Name="stateId" />
+          </Key>
+          <Property Name="stateId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descState" Type="nvarchar(max)" />
+          <Property Name="color" Type="nvarchar(max)" />
+          <Property Name="startValue" Type="nvarchar(max)" />
+          <Property Name="endValue" Type="nvarchar(max)" />
+          <Property Name="message" Type="nvarchar(max)" />
+          <Property Name="priority" Type="int" />
+          <Property Name="stateMonitorMetricId" Type="bigint" />
+        </EntityType>
+        <Association Name="FK_StateMonitorMetrics_StateMonitors">
+          <End Role="StateMonitors" Type="Self.StateMonitors" Multiplicity="0..1" />
+          <End Role="StateMonitorMetrics" Type="Self.StateMonitorMetrics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateMonitors">
+              <PropertyRef Name="stateMonitorId" />
+            </Principal>
+            <Dependent Role="StateMonitorMetrics">
+              <PropertyRef Name="stateMonitorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_States_StateMonitorMetrics">
+          <End Role="StateMonitorMetrics" Type="Self.StateMonitorMetrics" Multiplicity="0..1" />
+          <End Role="States" Type="Self.States" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateMonitorMetrics">
+              <PropertyRef Name="stateMonitorMetricId" />
+            </Principal>
+            <Dependent Role="States">
+              <PropertyRef Name="stateMonitorMetricId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="STATE_MONITOR_DBModelStoreContainer">
+          <EntitySet Name="StateMonitorMetrics" EntityType="Self.StateMonitorMetrics" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StateMonitors" EntityType="Self.StateMonitors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_StateMonitorMetrics_StateMonitors" Association="Self.FK_StateMonitorMetrics_StateMonitors">
+            <End Role="StateMonitors" EntitySet="StateMonitors" />
+            <End Role="StateMonitorMetrics" EntitySet="StateMonitorMetrics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_States_StateMonitorMetrics" Association="Self.FK_States_StateMonitorMetrics">
+            <End Role="StateMonitorMetrics" EntitySet="StateMonitorMetrics" />
+            <End Role="States" EntitySet="States" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="STATE_MONITOR_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="STATE_MONITOR_DBEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="StateMonitorMetrics" EntityType="STATE_MONITOR_DBModel.StateMonitorMetric" />
+          <EntitySet Name="StateMonitors" EntityType="STATE_MONITOR_DBModel.StateMonitor" />
+          <EntitySet Name="States" EntityType="STATE_MONITOR_DBModel.State" />
+          <AssociationSet Name="FK_StateMonitorMetrics_StateMonitors" Association="STATE_MONITOR_DBModel.FK_StateMonitorMetrics_StateMonitors">
+            <End Role="StateMonitor" EntitySet="StateMonitors" />
+            <End Role="StateMonitorMetric" EntitySet="StateMonitorMetrics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_States_StateMonitorMetrics" Association="STATE_MONITOR_DBModel.FK_States_StateMonitorMetrics">
+            <End Role="StateMonitorMetric" EntitySet="StateMonitorMetrics" />
+            <End Role="State" EntitySet="States" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="StateMonitorMetric">
+          <Key>
+            <PropertyRef Name="stateMonitorMetricId" />
+          </Key>
+          <Property Name="stateMonitorMetricId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descMetric" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="measuredTag" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="stateMonitorId" Type="Int64" />
+          <NavigationProperty Name="StateMonitor" Relationship="STATE_MONITOR_DBModel.FK_StateMonitorMetrics_StateMonitors" FromRole="StateMonitorMetric" ToRole="StateMonitor" />
+          <NavigationProperty Name="States" Relationship="STATE_MONITOR_DBModel.FK_States_StateMonitorMetrics" FromRole="StateMonitorMetric" ToRole="State" />
+        </EntityType>
+        <EntityType Name="StateMonitor">
+          <Key>
+            <PropertyRef Name="stateMonitorId" />
+          </Key>
+          <Property Name="stateMonitorId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="thingType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="thingLvl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="thingName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="thingId" Type="Int64" />
+          <NavigationProperty Name="StateMonitorMetrics" Relationship="STATE_MONITOR_DBModel.FK_StateMonitorMetrics_StateMonitors" FromRole="StateMonitor" ToRole="StateMonitorMetric" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="stateId" />
+          </Key>
+          <Property Name="stateId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descState" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="color" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="startValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="endValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="priority" Type="Int32" />
+          <Property Name="stateMonitorMetricId" Type="Int64" />
+          <NavigationProperty Name="StateMonitorMetric" Relationship="STATE_MONITOR_DBModel.FK_States_StateMonitorMetrics" FromRole="State" ToRole="StateMonitorMetric" />
+        </EntityType>
+        <Association Name="FK_StateMonitorMetrics_StateMonitors">
+          <End Type="STATE_MONITOR_DBModel.StateMonitor" Role="StateMonitor" Multiplicity="0..1" />
+          <End Type="STATE_MONITOR_DBModel.StateMonitorMetric" Role="StateMonitorMetric" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateMonitor">
+              <PropertyRef Name="stateMonitorId" />
+            </Principal>
+            <Dependent Role="StateMonitorMetric">
+              <PropertyRef Name="stateMonitorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_States_StateMonitorMetrics">
+          <End Type="STATE_MONITOR_DBModel.StateMonitorMetric" Role="StateMonitorMetric" Multiplicity="0..1" />
+          <End Type="STATE_MONITOR_DBModel.State" Role="State" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateMonitorMetric">
+              <PropertyRef Name="stateMonitorMetricId" />
+            </Principal>
+            <Dependent Role="State">
+              <PropertyRef Name="stateMonitorMetricId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="STATE_MONITOR_DBModelStoreContainer" CdmEntityContainer="STATE_MONITOR_DBEntities" >
+          <EntitySetMapping Name="StateMonitorMetrics">
+            <EntityTypeMapping TypeName="STATE_MONITOR_DBModel.StateMonitorMetric">
+              <MappingFragment StoreEntitySet="StateMonitorMetrics">
+                <ScalarProperty Name="stateMonitorId" ColumnName="stateMonitorId" />
+                <ScalarProperty Name="measuredTag" ColumnName="measuredTag" />
+                <ScalarProperty Name="descMetric" ColumnName="descMetric" />
+                <ScalarProperty Name="stateMonitorMetricId" ColumnName="stateMonitorMetricId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StateMonitors">
+            <EntityTypeMapping TypeName="STATE_MONITOR_DBModel.StateMonitor">
+              <MappingFragment StoreEntitySet="StateMonitors">
+                <ScalarProperty Name="thingId" ColumnName="thingId" />
+                <ScalarProperty Name="thingName" ColumnName="thingName" />
+                <ScalarProperty Name="thingLvl" ColumnName="thingLvl" />
+                <ScalarProperty Name="thingType" ColumnName="thingType" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="stateMonitorId" ColumnName="stateMonitorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="STATE_MONITOR_DBModel.State">
+              <MappingFragment StoreEntitySet="States">
+                <ScalarProperty Name="stateMonitorMetricId" ColumnName="stateMonitorMetricId" />
+                <ScalarProperty Name="priority" ColumnName="priority" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="endValue" ColumnName="endValue" />
+                <ScalarProperty Name="startValue" ColumnName="startValue" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="descState" ColumnName="descState" />
+                <ScalarProperty Name="stateId" ColumnName="stateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

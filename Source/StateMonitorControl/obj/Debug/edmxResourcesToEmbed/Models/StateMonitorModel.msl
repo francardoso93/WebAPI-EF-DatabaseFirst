@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="STATE_MONITOR_DBModelStoreContainer" CdmEntityContainer="STATE_MONITOR_DBEntities">
+    <EntitySetMapping Name="StateMonitorMetrics">
+      <EntityTypeMapping TypeName="STATE_MONITOR_DBModel.StateMonitorMetric">
+        <MappingFragment StoreEntitySet="StateMonitorMetrics">
+          <ScalarProperty Name="stateMonitorId" ColumnName="stateMonitorId" />
+          <ScalarProperty Name="measuredTag" ColumnName="measuredTag" />
+          <ScalarProperty Name="descMetric" ColumnName="descMetric" />
+          <ScalarProperty Name="stateMonitorMetricId" ColumnName="stateMonitorMetricId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StateMonitors">
+      <EntityTypeMapping TypeName="STATE_MONITOR_DBModel.StateMonitor">
+        <MappingFragment StoreEntitySet="StateMonitors">
+          <ScalarProperty Name="thingId" ColumnName="thingId" />
+          <ScalarProperty Name="thingName" ColumnName="thingName" />
+          <ScalarProperty Name="thingLvl" ColumnName="thingLvl" />
+          <ScalarProperty Name="thingType" ColumnName="thingType" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="stateMonitorId" ColumnName="stateMonitorId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="States">
+      <EntityTypeMapping TypeName="STATE_MONITOR_DBModel.State">
+        <MappingFragment StoreEntitySet="States">
+          <ScalarProperty Name="stateMonitorMetricId" ColumnName="stateMonitorMetricId" />
+          <ScalarProperty Name="priority" ColumnName="priority" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="endValue" ColumnName="endValue" />
+          <ScalarProperty Name="startValue" ColumnName="startValue" />
+          <ScalarProperty Name="color" ColumnName="color" />
+          <ScalarProperty Name="descState" ColumnName="descState" />
+          <ScalarProperty Name="stateId" ColumnName="stateId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
